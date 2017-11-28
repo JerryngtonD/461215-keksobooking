@@ -73,44 +73,25 @@ var outTimes = [
   '13:00',
   '14:00'
 ];
+var peoplePerRoom = 10;
 
 var userObjects = [];
 for (var i = 0; i < itemsLength; i++) {
   var userObject = {};
 
-  var numberImageLink = rangeImageNumber.splice(Math.floor(Math.random() * rangeImageNumber.length), 1);
-  var imageLink = getImageLink(numberImageLink);
-  var title = titles.splice(Math.floor(Math.random() * titles.length), 1);
-  var x = getRandomInt(rangeOfCoordinatesX.from, rangeOfCoordinatesX.to);
-  var y = getRandomInt(rangeOfCoordinatesY.from, rangeOfCoordinatesY.to);
-  var price = getRandomInt(1000, 1000000);
-  var type = types[Math.floor(Math.random() * types.length)];
-  var rooms = getRandomInt(1, 5);
-
-  var peoplePerRoom = 10;
-  var guests = getRandomInt(1, rooms * peoplePerRoom);
-
-  var checkin = inTimes[Math.floor(Math.random() * inTimes.length)];
-  var checkout = outTimes[Math.floor(Math.random() * outTimes.length)];
-
-  var generatorFeatures = Object.assign([], allFeatures);
-  var features = getMeRandomElements(generatorFeatures, Math.floor(Math.random() * generatorFeatures.length));
-
-  var description = '';
-  var photos = [];
-  userObject['author'] = {'avatar': imageLink};
-  userObject['offer'] = {
-    'title': title,
-    'adress': x + ', ' + y,
-    'price': price,
-    'type': type,
-    'rooms': rooms,
-    'guests': guests,
-    'checkin': checkin,
-    'checkout': checkout,
-    'features': features,
-    'description': description,
-    'photos': photos
+  userObject.author = {'avatar': getImageLink(rangeImageNumber.splice(Math.floor(Math.random() * rangeImageNumber.length), 1))};
+  userObject.offer = {
+    'title': titles.splice(Math.floor(Math.random() * titles.length), 1),
+    'adress': getRandomInt(rangeOfCoordinatesX.from, rangeOfCoordinatesX.to) + ', ' + getRandomInt(rangeOfCoordinatesY.from, rangeOfCoordinatesY.to),
+    'price': getRandomInt(1000, 1000000),
+    'type': types[Math.floor(Math.random() * types.length)],
+    'rooms': getRandomInt(1, 5),
+    'guests': getRandomInt(1, getRandomInt(1, 5) * peoplePerRoom),
+    'checkin': inTimes[Math.floor(Math.random() * inTimes.length)],
+    'checkout': outTimes[Math.floor(Math.random() * outTimes.length)],
+    'features': getMeRandomElements(Object.assign([], allFeatures), Math.floor(Math.random() * allFeatures.length)),
+    'description': '',
+    'photos': []
   };
 
   userObjects.push(userObject);
@@ -121,14 +102,14 @@ mapView.classList.remove('map--faded');
 
 function renderPinItem(objIndex) {
   var simplePinTemplate = document.querySelector('template').content.lastElementChild.cloneNode(true);
-  var locationCoordinates = userObjects[objIndex]['offer']['adress'].split(',');
+  var locationCoordinates = userObjects[objIndex].offer.adress.split(',');
 
   var pinWidth = 46;
   var pinHeight = 46 + 18;
   // var style = 'left:' + locationCoordinates[0] + 'px' + '; ' + 'top:' + locationCoordinates[0] + 'px' + ';';
   simplePinTemplate.style.left = (parseInt(locationCoordinates[0], 10) + pinWidth / 2) + 'px';
   simplePinTemplate.style.top = (parseInt(locationCoordinates[1], 10) + pinHeight) + 'px';
-  simplePinTemplate.firstChild.src = userObjects[objIndex]['author']['avatar'];
+  simplePinTemplate.firstChild.src = userObjects[objIndex].author.avatar;
 
   return simplePinTemplate;
 }
@@ -141,39 +122,39 @@ for (var index = 0; index < userObjects.length; index++) {
 mapPins.appendChild(fragment);
 
 var objTemplate = document.querySelector('template').content.firstElementChild.cloneNode(true);
-objTemplate.querySelector('h3').textContent = userObjects[0]['offer']['title'];
-objTemplate.querySelector('small').textContent = userObjects[0]['offer']['adress'];
-objTemplate.querySelector('.popup__price').textContent = userObjects[0]['offer']['price'] + '&#x20bd;/ночь';
+objTemplate.querySelector('h3').innerHTML = userObjects[0].offer.title;
+objTemplate.querySelector('small').innerHTML = userObjects[0].offer.adress;
+objTemplate.querySelector('.popup__price').innerHTML = userObjects[0].offer.price + '&#x20bd;/ночь';
 
 
-if (userObjects[0]['offer']['type'] === 'flat') {
-  objTemplate.querySelector('h4').textContent = 'Квартира';
-} else if (userObjects[0]['offer']['type'] === 'bungalo') {
-  objTemplate.querySelector('h4').textContent = 'Бунгало';
+if (userObjects[0].offer.type === 'flat') {
+  objTemplate.querySelector('h4').innerHTML = 'Квартира';
+} else if (userObjects[0].offer.type === 'bungalo') {
+  objTemplate.querySelector('h4').innerHTML = 'Бунгало';
 } else {
-  objTemplate.querySelector('h4').textContent = 'Дом';
+  objTemplate.querySelector('h4').innerHTML = 'Дом';
 }
 
-objTemplate.querySelectorAll('p')[2].textContent = userObjects[0]['offer']['rooms'] + ' комнаты для ' +
-                                                   userObjects[0]['offer']['guests'] + ' гостей';
+objTemplate.querySelectorAll('p')[2].innerHTML = userObjects[0].offer.rooms + ' комнаты для ' +
+                                                   userObjects[0].offer.guests + ' гостей';
 
-objTemplate.querySelectorAll('p')[3].textContent = 'Заезд после ' + userObjects[0]['offer']['checkin'] + ',' + ' выезд до ' +
-                                                    userObjects[0]['offer']['checkout'];
+objTemplate.querySelectorAll('p')[3].innerHTML = 'Заезд после ' + userObjects[0].offer.checkin + ',' + ' выезд до ' +
+                                                    userObjects[0].offer.checkout;
 
 var fragmentFeatures = document.createDocumentFragment();
-for (var itemIndex = 0; itemIndex < userObjects[0]['offer']['features'].length; itemIndex++) {
+for (var itemIndex = 0; itemIndex < userObjects[0].offer.features.length; itemIndex++) {
   var liElem = document.createElement('li');
   liElem.classList.add('feature');
-  liElem.classList.add('feature--' + userObjects[0]['offer']['features'][itemIndex]);
+  liElem.classList.add('feature--' + userObjects[0].offer.features[itemIndex]);
   fragmentFeatures.appendChild(liElem);
 }
 objTemplate.querySelector('.popup__features').innerHTML = '';
 objTemplate.querySelector('.popup__features').appendChild(fragmentFeatures);
 
 
-objTemplate.querySelectorAll('p')[4].textContent = userObjects[0]['offer']['description'];
+objTemplate.querySelectorAll('p')[4].innerHTML = userObjects[0].offer.description;
 
 var beforeInsertElement = document.querySelector('.map__filters-container');
 document.querySelector('.map').insertBefore(objTemplate, beforeInsertElement);
 
-objTemplate.querySelector('.popup__avatar').src = userObjects[0]['author']['avatar'];
+objTemplate.querySelector('.popup__avatar').src = userObjects[0].author.avatar;
