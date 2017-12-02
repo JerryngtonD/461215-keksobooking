@@ -278,6 +278,7 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
               removeActiveState(currentPin);
             }
           });
+
           var popupClose = document.querySelector('.popup__close');
           popupClose.addEventListener('focus', function () {
             document.addEventListener('keydown', function (exit) {
