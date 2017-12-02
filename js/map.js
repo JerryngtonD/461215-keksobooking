@@ -97,9 +97,6 @@ for (var i = 0; i < itemsLength; i++) {
   userObjects.push(userObject);
 }
 
-var mapView = document.querySelector('.map');
-mapView.classList.remove('map--faded');
-
 function renderPinItem(objIndex) {
   var simplePinTemplate = document.querySelector('template').content.lastElementChild.cloneNode(true);
   var locationCoordinates = userObjects[objIndex].offer.adress.split(',');
@@ -155,6 +152,161 @@ objTemplate.querySelector('.popup__features').appendChild(fragmentFeatures);
 objTemplate.querySelectorAll('p')[4].innerHTML = userObjects[0].offer.description;
 
 var beforeInsertElement = document.querySelector('.map__filters-container');
+objTemplate.querySelector('.popup__avatar').src = userObjects[0].author.avatar;
+
 document.querySelector('.map').insertBefore(objTemplate, beforeInsertElement);
 
-objTemplate.querySelector('.popup__avatar').src = userObjects[0].author.avatar;
+
+var form = document.querySelector('.notice__form--disabled');
+var disabledAreas = form.querySelectorAll('fieldset');
+for (var j = 0; j < disabledAreas.length; j++) {
+  disabledAreas[j].setAttribute('disabled', true);
+}
+
+var mapSimilarPins = document.querySelectorAll('.map__pin');
+function changeVisiblePins(switchFlag) {
+  for (var pinIdx = 0; pinIdx < mapSimilarPins.length; pinIdx++) {
+    if (mapSimilarPins[pinIdx].classList.contains('map__pin--main') && pinIdx === mapSimilarPins.length - 1) {
+      continue;
+    } else if (mapSimilarPins[pinIdx].classList.contains('map__pin--main')) {
+      continue;
+    } else {
+      if (switchFlag) {
+        mapSimilarPins[pinIdx].style.display = 'none';
+      } else {
+        mapSimilarPins[pinIdx].style.display = 'block';
+      }
+    }
+  }
+}
+changeVisiblePins(true);
+
+var mainPin = document.querySelector('.map__pin--main');
+mainPin.addEventListener('mouseup', function () {
+  document.querySelector('.map').classList.remove('map--faded');
+  for (var idx = 0; idx < disabledAreas.length; idx++) {
+    disabledAreas[idx].setAttribute('disabled', false);
+  }
+  changeVisiblePins(false);
+  form.classList.remove('notice__form--disabled');
+});
+
+
+var descriptionHouse = document.querySelector('.map__card');
+descriptionHouse.style.display = 'none';
+
+var addActiveState = function (pinObj) {
+  pinObj.classList.add('map__pin--active');
+};
+
+var removeActiveState = function (pinObj) {
+  pinObj.classList.remove('map__pin--active');
+};
+
+function changePopupDescription(obj) {
+  var currentObjTemplate = document.querySelector('template').content.firstElementChild.cloneNode(true);
+  currentObjTemplate.querySelector('h3').innerHTML = obj.offer.title;
+  currentObjTemplate.querySelector('small').innerHTML = obj.offer.adress;
+  currentObjTemplate.querySelector('.popup__price').innerHTML = obj.offer.price + '&#x20bd;/ночь';
+
+
+  if (obj.offer.type === 'flat') {
+    currentObjTemplate.querySelector('h4').innerHTML = 'Квартира';
+  } else if (obj.offer.type === 'bungalo') {
+    objTemplate.querySelector('h4').innerHTML = 'Бунгало';
+  } else {
+    currentObjTemplate.querySelector('h4').innerHTML = 'Дом';
+  }
+
+  currentObjTemplate.querySelectorAll('p')[2].innerHTML = obj.offer.rooms + ' комнаты для ' +
+    obj.offer.guests + ' гостей';
+
+  currentObjTemplate.querySelectorAll('p')[3].innerHTML = 'Заезд после ' + obj.offer.checkin + ',' + ' выезд до ' +
+    obj.offer.checkout;
+
+  var fragmentObjFeatures = document.createDocumentFragment();
+  for (var itemObjIndex = 0; itemObjIndex < obj.offer.features.length; itemObjIndex++) {
+    var liObjElem = document.createElement('li');
+    liObjElem.classList.add('feature');
+    liObjElem.classList.add('feature--' + obj.offer.features[itemObjIndex]);
+    fragmentObjFeatures.appendChild(liObjElem);
+  }
+  currentObjTemplate.querySelector('.popup__features').innerHTML = '';
+  currentObjTemplate.querySelector('.popup__features').appendChild(fragmentObjFeatures);
+
+
+  currentObjTemplate.querySelectorAll('p')[4].innerHTML = obj.offer.description;
+
+  var beforeInsertObjElement = document.querySelector('.map__filters-container');
+  currentObjTemplate.querySelector('.popup__avatar').src = obj.author.avatar;
+
+  document.querySelector('.map').insertBefore(currentObjTemplate, beforeInsertObjElement);
+  document.querySelectorAll('.map__card')[0].remove();
+
+}
+
+var pinItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+var currentPin = 0;
+for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
+  pinItems[pinIndex].addEventListener('mouseup', function (event) {
+    descriptionHouse.style.display = 'block';
+    if (currentPin === 0) {
+      currentPin = event.target.parentNode;
+      var srcZeroPinStep = currentPin.firstElementChild.getAttribute('src');
+      for (var p = 0; p < userObjects.length; p++) {
+        if (userObjects[p].author.avatar === srcZeroPinStep) {
+          changePopupDescription(userObjects[p]);
+        }
+      }
+      addActiveState(currentPin);
+    } else {
+      removeActiveState(currentPin);
+      currentPin = event.target.parentNode;
+      addActiveState(currentPin);
+      var srcPin = currentPin.firstElementChild.getAttribute('src');
+      for (var pinIdx = 0; pinIdx < userObjects.length; pinIdx++) {
+        if (userObjects[pinIdx].author.avatar === srcPin) {
+          changePopupDescription(userObjects[pinIdx]);
+        }
+      }
+    }
+  });
+}
+
+for (var idx = 0; idx < pinItems.length; idx++) {
+  var srcPin = 0;
+  pinItems[idx].addEventListener('focus', function (evt) {
+    document.addEventListener('keydown', function (event) {
+      if (event.keyCode === 13) {
+        if (currentPin === 0) {
+          currentPin = evt.target;
+          addActiveState(currentPin);
+          srcPin = currentPin.firstElementChild.getAttribute('src');
+          for (var pinIdx = 0; pinIdx < userObjects.length; pinIdx++) {
+            if (userObjects[pinIdx].author.avatar === srcPin) {
+              changePopupDescription(userObjects[pinIdx]);
+            }
+          }
+        } else {
+          removeActiveState(currentPin);
+          currentPin = evt.target;
+          addActiveState(currentPin);
+          srcPin = currentPin.firstElementChild.getAttribute('src');
+          for (var pinInd = 0; pinInd < userObjects.length; pinInd++) {
+            if (userObjects[pinInd].author.avatar === srcPin) {
+              changePopupDescription(userObjects[pinInd]);
+            }
+          }
+        }
+      }
+    });
+  });
+}
+
+var popupClose = descriptionHouse.querySelector('.popup__close');
+popupClose.addEventListener('onclick', function () {
+  removeActiveState(currentPin);
+  descriptionHouse.style.display = 'none';
+});
+
+
