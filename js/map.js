@@ -267,6 +267,7 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
     }
   });
 
+
   pinItems[pinIndex].addEventListener('focus', function (focusedPin) {
     document.addEventListener('keydown', function (activatedKey) {
       if (activatedKey.keyCode === 13) {
