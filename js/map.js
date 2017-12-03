@@ -200,6 +200,16 @@ function changePopupDescription(obj) {
   document.querySelector('.map').insertBefore(currentObjTemplate, beforeInsertObjElement);
   // document.querySelectorAll('.map__card')[0].remove();
 
+  var popupClose = document.querySelector('.popup__close');
+  popupClose.addEventListener('focus', function () {
+    document.addEventListener('keydown', function (exit) {
+      if (exit.keyCode === 13) {
+        document.querySelector('.map__card').style.display = 'none';
+        removeActiveState(currentPin);
+      }
+    });
+  });
+
 }
 
 function findElemOnLink(obj) {
@@ -250,14 +260,6 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
       document.querySelectorAll('.map__card')[0].remove();
       changePopupDescription(findElemOnLink(currentPin));
       var popupClose = document.querySelector('.popup__close');
-      popupClose.addEventListener('focus', function () {
-        document.addEventListener('keydown', function (exit) {
-          if (exit.keyCode === 13) {
-            document.querySelector('.map__card').style.display = 'none';
-            removeActiveState(currentPin);
-          }
-        });
-      });
       popupClose.addEventListener('mouseup', function () {
         document.querySelector('.map__card').style.display = 'none';
         removeActiveState(currentPin);
@@ -280,14 +282,6 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
           });
 
           var popupClose = document.querySelector('.popup__close');
-          popupClose.addEventListener('focus', function () {
-            document.addEventListener('keydown', function (exit) {
-              if (exit.keyCode === 13) {
-                document.querySelector('.map__card').style.display = 'none';
-                removeActiveState(currentPin);
-              }
-            });
-          });
           popupClose.addEventListener('mouseup', function () {
             document.querySelector('.map__card').style.display = 'none';
             removeActiveState(currentPin);
@@ -299,14 +293,6 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
           document.querySelectorAll('.map__card')[0].remove();
           changePopupDescription(findElemOnLink(currentPin));
           var popup = document.querySelector('.popup__close');
-          popup.addEventListener('focus', function () {
-            document.addEventListener('keydown', function (exit) {
-              if (exit.keyCode === 13) {
-                document.querySelector('.map__card').style.display = 'none';
-                removeActiveState(currentPin);
-              }
-            });
-          });
           popup.addEventListener('mouseup', function () {
             document.querySelector('.map__card').style.display = 'none';
             removeActiveState(currentPin);
@@ -317,147 +303,4 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
   });
 
 }
-/* for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
-  pinItems[pinIndex].addEventListener('mouseup', function (event) {
-    if (currentPin === 0) {
-      currentPin = event.target.parentNode;
-      var srcZeroPinStep = currentPin.firstElementChild.getAttribute('src');
-      for (var p = 0; p < userObjects.length; p++) {
-        if (userObjects[p].author.avatar === srcZeroPinStep) {
-          changePopupDescription(userObjects[p]);
-          var popupClose = document.querySelector('.popup__close');
-          popupClose.addEventListener('click', function () {
-            removeActiveState(currentPin);
-            popupClose.parentNode.style.display = 'none';
-          });
-          document.addEventListener('keydown', function (keydown) {
-            if (keydown.keyCode === 27) {
-              removeActiveState(currentPin);
-              popupClose.parentNode.style.display = 'none';
-            }
-          });
-
-          popupClose.addEventListener('focus', function () {
-            document.addEventListener('keydown', function (closeEvent) {
-              if (closeEvent.keyCode === 13) {
-                removeActiveState(currentPin);
-                popupClose.parentNode.style.display = 'none';
-                popupClose.remove();
-              }
-            });
-          });
-
-        }
-      }
-      addActiveState(currentPin);
-    } else {
-      removeActiveState(currentPin);
-      currentPin = event.target.parentNode;
-      addActiveState(currentPin);
-      var srcPin = currentPin.firstElementChild.getAttribute('src');
-      for (var pinIdx = 0; pinIdx < userObjects.length; pinIdx++) {
-        if (userObjects[pinIdx].author.avatar === srcPin) {
-          changePopupDescription(userObjects[pinIdx]);
-          document.querySelectorAll('.map__card')[0].remove();
-          var popupClose = document.querySelector('.popup__close');
-          console.log(popupClose);
-          popupClose.addEventListener('mouseup', function () {
-            removeActiveState(currentPin);
-            popupClose.parentNode.style.display = 'none';
-          });
-          popupClose.addEventListener('focus', function () {
-            document.addEventListener('keydown', function (closeEvent) {
-              if (closeEvent.keyCode === 13) {
-                removeActiveState(currentPin);
-                popupClose.parentNode.style.display = 'none';
-              }
-            });
-          });
-
-          document.addEventListener('keydown', function (keydown) {
-            if (keydown.keyCode === 27) {
-              removeActiveState(currentPin);
-              popupClose.parentNode.style.display = 'none';
-            }
-          });
-        }
-      }
-    }
-  });
-}
-
-for (var idx = 0; idx < pinItems.length; idx++) {
-  var srcPin = 0;
-  pinItems[idx].addEventListener('focus', function (evt) {
-    document.addEventListener('keydown', function (event) {
-      if (event.keyCode === 13) {
-        if (currentPin) {
-          removeActiveState(currentPin);
-          currentPin = evt.target;
-          addActiveState(currentPin);
-        } else {
-          currentPin = evt.target;
-          addActiveState(currentPin);
-        }
-      }
-    });
-  });
-
-}*/
-/*
-for (var idx = 0; idx < pinItems.length; idx++) {
-  var srcPin = 0;
-  pinItems[idx].addEventListener('focus', function (evt) {
-    console.log(3);
-    document.addEventListener('keydown', function (event) {
-      if (event.keyCode === 13) {
-        if (currentPin === 0) {
-          currentPin = evt.target;
-          addActiveState(currentPin);
-          srcPin = currentPin.firstElementChild.getAttribute('src');
-          for (var pinIdx = 0; pinIdx < userObjects.length; pinIdx++) {
-            if (userObjects[pinIdx].author.avatar === srcPin) {
-              changePopupDescription(userObjects[pinIdx]);
-              var popupClose = document.querySelector('.popup__close');
-              popupClose.addEventListener('click', function () {
-                removeActiveState(currentPin);
-                popupClose.parentNode.style.display = 'none';
-              });
-              document.addEventListener('keydown', function (keydown) {
-                if (keydown.keyCode === 27) {
-                  removeActiveState(currentPin);
-                  popupClose.parentNode.style.display = 'none';
-                }
-              });
-            }
-          }
-        } else {
-          removeActiveState(currentPin);
-          currentPin = evt.target;
-          addActiveState(currentPin);
-          srcPin = currentPin.firstElementChild.getAttribute('src');
-          for (var pinInd = 0; pinInd < userObjects.length; pinInd++) {
-            if (userObjects[pinInd].author.avatar === srcPin) {
-              changePopupDescription(userObjects[pinInd]);
-              document.querySelectorAll('.map__card')[0].remove();
-              var popupClose = document.querySelector('.popup__close');
-              popupClose.addEventListener('click', function () {
-                removeActiveState(currentPin);
-                popupClose.parentNode.style.display = 'none';
-              });
-              document.addEventListener('keydown', function (keydown) {
-                if (keydown.keyCode === 27) {
-                  removeActiveState(currentPin);
-                  popupClose.parentNode.style.display = 'none';
-                }
-              });
-            }
-          }
-        }
-      }
-    });
-  });
-}
-
-*/
 
