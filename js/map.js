@@ -229,7 +229,7 @@ var currentPin = 0;
 for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
   pinItems[pinIndex].addEventListener('mouseup', function (clickedPin) {
     if (currentPin === 0) {
-      currentPin = clickedPin.target.parentNode;
+      currentPin = clickedPin.currentTarget;
       addActiveState(currentPin);
       changePopupDescription(findElemOnLink(currentPin));
       document.addEventListener('keydown', function (eventEsc) {
@@ -255,7 +255,7 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
 
     } else {
       removeActiveState(currentPin);
-      currentPin = clickedPin.target.parentNode;
+      currentPin = clickedPin.currentTarget;
       addActiveState(currentPin);
       document.querySelectorAll('.map__card')[0].remove();
       changePopupDescription(findElemOnLink(currentPin));
