@@ -143,7 +143,7 @@ function changeVisiblePins(switchFlag) {
 changeVisiblePins(true);
 
 var mainPin = document.querySelector('.map__pin--main');
-mainPin.addEventListener('mouseup', function () {
+mainPin.addEventListener('click', function () {
   document.querySelector('.map').classList.remove('map--faded');
   for (var idx = 0; idx < disabledAreas.length; idx++) {
     disabledAreas[idx].setAttribute('disabled', false);
@@ -227,7 +227,7 @@ function findElemOnLink(obj) {
 var pinItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 var currentPin = 0;
 for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
-  pinItems[pinIndex].addEventListener('mouseup', function (clickedPin) {
+  pinItems[pinIndex].addEventListener('click', function (clickedPin) {
     if (currentPin === 0) {
       currentPin = clickedPin.currentTarget;
       addActiveState(currentPin);
@@ -248,7 +248,7 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
         });
       });
 
-      popup.addEventListener('mouseup', function () {
+      popup.addEventListener('click', function () {
         document.querySelector('.map__card').style.display = 'none';
         removeActiveState(currentPin);
       });
@@ -260,7 +260,7 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
       document.querySelectorAll('.map__card')[0].remove();
       changePopupDescription(findElemOnLink(currentPin));
       var popupClose = document.querySelector('.popup__close');
-      popupClose.addEventListener('mouseup', function () {
+      popupClose.addEventListener('click', function () {
         document.querySelector('.map__card').style.display = 'none';
         removeActiveState(currentPin);
       });
@@ -283,7 +283,7 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
           });
 
           var popupClose = document.querySelector('.popup__close');
-          popupClose.addEventListener('mouseup', function () {
+          popupClose.addEventListener('click', function () {
             document.querySelector('.map__card').style.display = 'none';
             removeActiveState(currentPin);
           });
@@ -294,7 +294,7 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
           document.querySelectorAll('.map__card')[0].remove();
           changePopupDescription(findElemOnLink(currentPin));
           var popup = document.querySelector('.popup__close');
-          popup.addEventListener('mouseup', function () {
+          popup.addEventListener('click', function () {
             document.querySelector('.map__card').style.display = 'none';
             removeActiveState(currentPin);
           });
