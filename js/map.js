@@ -146,7 +146,7 @@ var mainPin = document.querySelector('.map__pin--main');
 mainPin.addEventListener('click', function () {
   document.querySelector('.map').classList.remove('map--faded');
   for (var idx = 0; idx < disabledAreas.length; idx++) {
-    disabledAreas[idx].setAttribute('disabled', false);
+    disabledAreas[idx].removeAttribute('disabled');
   }
   changeVisiblePins(false);
   form.classList.remove('notice__form--disabled');
@@ -304,4 +304,44 @@ for (var pinIndex = 0; pinIndex < pinItems.length; pinIndex++) {
   });
 
 }
+
+
+var timeInField = document.querySelector('#timein');
+var timeOutField = document.querySelector('#timeout');
+timeInField.addEventListener('change', function () {
+  timeOutField.options.selectedIndex = timeInField.options.selectedIndex;
+});
+
+timeOutField.addEventListener('change', function () {
+  timeInField.options.selectedIndex = timeOutField.options.selectedIndex;
+});
+
+var selectedTypeHabitation = document.querySelector('#type');
+selectedTypeHabitation.addEventListener('change', function () {
+  var minPrice = document.querySelector('#price');
+  if (selectedTypeHabitation.value === 'flat') {
+    minPrice.value = 1000;
+  } else if (selectedTypeHabitation.value === 'bungalo') {
+    minPrice.value = 0;
+  } else if (selectedTypeHabitation.value === 'house') {
+    minPrice.value = 5000;
+  } else if (selectedTypeHabitation.value === 'palace') {
+    minPrice.value = 10000;
+  }
+});
+
+var selectedRoomCount = document.querySelector('#room_number');
+selectedRoomCount.addEventListener('change', function () {
+  var capacity = document.querySelector('#capacity');
+  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1') {
+    capacity.value = 1;
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2') {
+    capacity.value = Math.floor(Math.random() * 2) + 1;
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3') {
+    capacity.value = Math.floor(Math.random() * 3) + 1;
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100') {
+    capacity.value = 0;
+  }
+});
+
 
