@@ -331,8 +331,8 @@ selectedTypeHabitation.addEventListener('change', function () {
 });
 
 var selectedRoomCount = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
 selectedRoomCount.addEventListener('change', function () {
-  var capacity = document.querySelector('#capacity');
   if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1') {
     capacity.value = 1;
   } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2') {
@@ -344,4 +344,34 @@ selectedRoomCount.addEventListener('change', function () {
   }
 });
 
+
+var formAdt = document.querySelector('.notice__form');
+formAdt.addEventListener('submit', function (e) {
+  var minPrice = document.querySelector('#price');
+
+  if (selectedTypeHabitation.value === 'flat' && minPrice.value < 1000) {
+    minPrice.style.borderColor = 'red';
+    e.preventDefault();
+  } else if (selectedTypeHabitation.value === 'house' && minPrice.value < 5000) {
+    minPrice.style.borderColor = 'red';
+  } else if (selectedTypeHabitation.value === 'palace' && minPrice.value < 10000) {
+    minPrice.style.borderColor = 'red';
+  }
+
+
+  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1' && capacity.value !== 1) {
+    capacity.style.borderColor = 'red';
+    e.preventDefault();
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2' && (capacity.value !== 1 || capacity.value !== 2)) {
+    capacity.style.borderColor = 'red';
+    e.preventDefault();
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3' && (capacity.value !== 1 || capacity.value !== 2 || capacity.value !== 3)) {
+    capacity.style.borderColor = 'red';
+    e.preventDefault();
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100' && (capacity.value !== 0)) {
+    capacity.style.borderColor = 'red';
+    e.preventDefault();
+  }
+
+});
 

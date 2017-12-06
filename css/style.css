@@ -848,15 +848,3 @@ textarea:focus
     background-position: -10px -10px;
 }
 
-
-input:valid {
-  border-color: green;
-}
-
-input:invalid {
-  border-color: red;
-}
-
-input:required:valid {
-  border-color: green;
-}
