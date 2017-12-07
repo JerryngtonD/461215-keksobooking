@@ -333,33 +333,19 @@ selectedTypeHabitation.addEventListener('change', function () {
   }
 });
 
-/* var selectedRoomCount = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
-selectedRoomCount.addEventListener('change', function () {
-  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1') {
-    capacity.value = 1;
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2') {
-    capacity.value = Math.floor(Math.random() * 2) + 1;
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3') {
-    capacity.value = Math.floor(Math.random() * 3) + 1;
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100') {
-    capacity.value = 0;
-  }
-});*/
-
 var selectedRoomCount = document.querySelector('#room_number');
 var capacity = document.querySelector('#capacity');
 
 var previousCapacity = capacity.value;
 selectedRoomCount.addEventListener('change', function () {
-  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1') {
+  if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 1) {
     if (previousCapacity === 1) {
       capacity.value = 1;
     } else {
       previousCapacity = 1;
       capacity.value = previousCapacity;
     }
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2') {
+  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 2) {
     if (previousCapacity === 1) {
       capacity.value = 1;
     } else if (previousCapacity === 2) {
@@ -368,7 +354,7 @@ selectedRoomCount.addEventListener('change', function () {
       previousCapacity = Math.floor(Math.random() * 2) + 1;
       capacity.value = previousCapacity;
     }
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3') {
+  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 3) {
     if (previousCapacity === 1) {
       capacity.value = 1;
     } else if (previousCapacity === 2) {
@@ -379,26 +365,11 @@ selectedRoomCount.addEventListener('change', function () {
       previousCapacity = Math.floor(Math.random() * 3) + 1;
       capacity.value = previousCapacity;
     }
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100') {
+  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 100) {
     previousCapacity = 0;
     capacity.value = previousCapacity;
   }
 });
-
-
-/*var formAdt = document.querySelector('.notice__form');
-formAdt.addEventListener('submit', function (e) {
-  var minPrice = document.querySelector('#price');
-
-  if (selectedTypeHabitation.value === 'flat' && minPrice.value < 1000) {
-    minPrice.style.borderColor = 'red';
-    e.preventDefault();
-  } else if (selectedTypeHabitation.value === 'house' && minPrice.value < 5000) {
-    minPrice.style.borderColor = 'red';
-  } else if (selectedTypeHabitation.value === 'palace' && minPrice.value < 10000) {
-    minPrice.style.borderColor = 'red';
-  }
-});*/
 
 var Price = document.querySelector('#price');
 
@@ -415,31 +386,16 @@ Price.addEventListener('invalid', function () {
   }
 });
 
-
 capacity.addEventListener('change', function () {
-  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1' && capacity.value !== 1) {
+  if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 1 && parseInt(capacity.value, 10) !== 1) {
     capacity.setCustomValidity('Нарушена численность людей');
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2' && (capacity.value !== 1 || capacity.value !== 2)) {
+  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 2 && (parseInt(capacity.value, 10) !== 1 || parseInt(capacity.value, 10) !== 2)) {
     capacity.setCustomValidity('Нарушена численность людей');
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3' && (capacity.value !== 1 || capacity.value !== 2 || capacity.value !== 3)) {
+  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 3 && (parseInt(capacity.value, 10) !== 1 || parseInt(capacity.value, 10) !== 2 || parseInt(capacity.value, 10) !== 3)) {
     capacity.setCustomValidity('Нарушена численность людей');
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100' && (capacity.value !== 0)) {
+  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 100 && (parseInt(capacity.value, 10) !== 0)) {
     capacity.setCustomValidity('Нарушена численность людей');
+  } else {
+    capacity.setCustomValidity('');
   }
 });
-/*
-  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1' && capacity.value !== 1) {
-    capacity.style.borderColor = 'red';
-    e.preventDefault();
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2' && (capacity.value !== 1 || capacity.value !== 2)) {
-    capacity.style.borderColor = 'red';
-    e.preventDefault();
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3' && (capacity.value !== 1 || capacity.value !== 2 || capacity.value !== 3)) {
-    capacity.style.borderColor = 'red';
-    e.preventDefault();
-  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100' && (capacity.value !== 0)) {
-    capacity.style.borderColor = 'red';
-    e.preventDefault();
-  }
-
-});*/
