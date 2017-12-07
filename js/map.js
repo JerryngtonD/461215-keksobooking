@@ -317,20 +317,23 @@ timeOutField.addEventListener('change', function () {
 });
 
 var selectedTypeHabitation = document.querySelector('#type');
+if (selectedTypeHabitation.value === 'flat') {
+  document.querySelector('#price').setAttribute('min', 1000);
+}
 selectedTypeHabitation.addEventListener('change', function () {
   var minPrice = document.querySelector('#price');
   if (selectedTypeHabitation.value === 'flat') {
-    minPrice.value = 1000;
+    minPrice.setAttribute('min', 1000);
   } else if (selectedTypeHabitation.value === 'bungalo') {
-    minPrice.value = 0;
+    minPrice.setAttribute('min', 0);
   } else if (selectedTypeHabitation.value === 'house') {
-    minPrice.value = 5000;
+    minPrice.setAttribute('min', 5000);
   } else if (selectedTypeHabitation.value === 'palace') {
-    minPrice.value = 10000;
+    minPrice.setAttribute('min', 10000);
   }
 });
 
-var selectedRoomCount = document.querySelector('#room_number');
+/* var selectedRoomCount = document.querySelector('#room_number');
 var capacity = document.querySelector('#capacity');
 selectedRoomCount.addEventListener('change', function () {
   if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1') {
@@ -341,6 +344,44 @@ selectedRoomCount.addEventListener('change', function () {
     capacity.value = Math.floor(Math.random() * 3) + 1;
   } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100') {
     capacity.value = 0;
+  }
+});*/
+
+var selectedRoomCount = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+
+var previousCapacity = capacity.value;
+selectedRoomCount.addEventListener('change', function () {
+  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1') {
+    if (previousCapacity === 1) {
+      capacity.value = 1;
+    } else {
+      previousCapacity = 1;
+      capacity.value = previousCapacity;
+    }
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2') {
+    if (previousCapacity === 1) {
+      capacity.value = 1;
+    } else if (previousCapacity === 2) {
+      capacity.value = 2;
+    } else {
+      previousCapacity = Math.floor(Math.random() * 2) + 1;
+      capacity.value = previousCapacity;
+    }
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3') {
+    if (previousCapacity === 1) {
+      capacity.value = 1;
+    } else if (previousCapacity === 2) {
+      capacity.value = 2;
+    } else if (previousCapacity === 3) {
+      capacity.value = 3;
+    } else {
+      previousCapacity = Math.floor(Math.random() * 3) + 1;
+      capacity.value = previousCapacity;
+    }
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100') {
+    previousCapacity = 0;
+    capacity.value = previousCapacity;
   }
 });
 
@@ -357,8 +398,36 @@ formAdt.addEventListener('submit', function (e) {
   } else if (selectedTypeHabitation.value === 'palace' && minPrice.value < 10000) {
     minPrice.style.borderColor = 'red';
   }
+});
+
+var Price = document.querySelector('#price');
+
+Price.addEventListener('invalid', function () {
+  if (Price.validity.rangeUnderflow) {
+    Price.setCustomValidity('Минимальная стоимость ниже заявленной');
+  } else {
+    Price.setCustomValidity('');
+  }
+  if (Price.validity.rangeOverflow) {
+    Price.setCustomValidity('Превышена максимальная стоимость');
+  } else {
+    Price.setCustomValidity('');
+  }
+});
 
 
+capacity.addEventListener('change', function () {
+  if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1' && capacity.value !== 1) {
+    capacity.setCustomValidity('Нарушена численность людей');
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '2' && (capacity.value !== 1 || capacity.value !== 2)) {
+    capacity.setCustomValidity('Нарушена численность людей');
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '3' && (capacity.value !== 1 || capacity.value !== 2 || capacity.value !== 3)) {
+    capacity.setCustomValidity('Нарушена численность людей');
+  } else if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '100' && (capacity.value !== 0)) {
+    capacity.setCustomValidity('Нарушена численность людей');
+  }
+});
+/*
   if (selectedRoomCount.options[selectedRoomCount.selectedIndex].value === '1' && capacity.value !== 1) {
     capacity.style.borderColor = 'red';
     e.preventDefault();
@@ -373,5 +442,4 @@ formAdt.addEventListener('submit', function (e) {
     e.preventDefault();
   }
 
-});
-
+});*/
