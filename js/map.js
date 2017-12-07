@@ -386,7 +386,7 @@ selectedRoomCount.addEventListener('change', function () {
 });
 
 
-var formAdt = document.querySelector('.notice__form');
+/*var formAdt = document.querySelector('.notice__form');
 formAdt.addEventListener('submit', function (e) {
   var minPrice = document.querySelector('#price');
 
@@ -398,7 +398,7 @@ formAdt.addEventListener('submit', function (e) {
   } else if (selectedTypeHabitation.value === 'palace' && minPrice.value < 10000) {
     minPrice.style.borderColor = 'red';
   }
-});
+});*/
 
 var Price = document.querySelector('#price');
 
