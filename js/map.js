@@ -334,18 +334,18 @@ selectedTypeHabitation.addEventListener('change', function () {
 });
 
 var selectedRoomCount = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
-
-var previousCapacity = capacity.value;
 selectedRoomCount.addEventListener('change', function () {
-  if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 1) {
+  var capacity = document.querySelector('#capacity');
+  var previousCapacity = parseInt(capacity.value, 10);
+  var selectedRooms = parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10);
+  if (selectedRooms === 1) {
     if (previousCapacity === 1) {
       capacity.value = 1;
     } else {
       previousCapacity = 1;
       capacity.value = previousCapacity;
     }
-  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 2) {
+  } else if (selectedRooms === 2) {
     if (previousCapacity === 1) {
       capacity.value = 1;
     } else if (previousCapacity === 2) {
@@ -354,18 +354,18 @@ selectedRoomCount.addEventListener('change', function () {
       previousCapacity = Math.floor(Math.random() * 2) + 1;
       capacity.value = previousCapacity;
     }
-  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 3) {
-    if (previousCapacity === 1) {
+  } else if (selectedRooms === 3) {
+    if (parseInt(previousCapacity, 10) === 1) {
       capacity.value = 1;
-    } else if (previousCapacity === 2) {
+    } else if (parseInt(previousCapacity, 10) === 2) {
       capacity.value = 2;
-    } else if (previousCapacity === 3) {
+    } else if (parseInt(previousCapacity, 10) === 3) {
       capacity.value = 3;
     } else {
       previousCapacity = Math.floor(Math.random() * 3) + 1;
       capacity.value = previousCapacity;
     }
-  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 100) {
+  } else if (selectedRooms === 100) {
     previousCapacity = 0;
     capacity.value = previousCapacity;
   }
@@ -386,16 +386,35 @@ Price.addEventListener('invalid', function () {
   }
 });
 
+function checkConnectionRoomsToCapacity(roomsCount, capacity) {
+  if (roomsCount === 1 && capacity !== 1) {
+    return false;
+  } else if (roomsCount === 2 && (capacity !== 1 || capacity !== 2)) {
+    return false;
+  } else if (roomsCount === 3 && capacity === 0) {
+    return false;
+  } else if (roomsCount === 100 && capacity !== 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+var capacity = document.querySelector('#capacity');
 capacity.addEventListener('change', function () {
-  if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 1 && parseInt(capacity.value, 10) !== 1) {
-    capacity.setCustomValidity('Нарушена численность людей');
-  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 2 && (parseInt(capacity.value, 10) !== 1 || parseInt(capacity.value, 10) !== 2)) {
-    capacity.setCustomValidity('Нарушена численность людей');
-  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 3 && (parseInt(capacity.value, 10) !== 1 || parseInt(capacity.value, 10) !== 2 || parseInt(capacity.value, 10) !== 3)) {
-    capacity.setCustomValidity('Нарушена численность людей');
-  } else if (parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10) === 100 && (parseInt(capacity.value, 10) !== 0)) {
+  var selectedRooms = parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10);
+  var capacityRooms = parseInt(capacity.value, 10);
+  if (checkConnectionRoomsToCapacity(selectedRooms, capacityRooms) === false) {
     capacity.setCustomValidity('Нарушена численность людей');
   } else {
     capacity.setCustomValidity('');
   }
+  selectedRoomCount.addEventListener('change', function () {
+    var newSelectedRooms = parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10);
+    if (checkConnectionRoomsToCapacity(newSelectedRooms, capacityRooms) === false) {
+      capacity.setCustomValidity('Нарушена численность людей');
+    } else {
+      capacity.setCustomValidity('');
+    }
+  });
 });
