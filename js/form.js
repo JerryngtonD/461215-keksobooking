@@ -37,8 +37,6 @@
   });
 
 
-
-
   var selectedRoomCount = document.querySelector('#room_number');
   selectedRoomCount.addEventListener('change', function () {
     var capacity = document.querySelector('#capacity');
@@ -76,12 +74,6 @@
       capacity.value = previousCapacity;
     }
   });
-
-
-
-
-
-
 
 
   var Price = document.querySelector('#price');
