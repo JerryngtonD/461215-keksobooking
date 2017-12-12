@@ -2,32 +2,42 @@
 (function () {
 
 
+  var sinchronizeTime = function (timeIn, timeOut) {
+    timeOut.options.selectedIndex = timeIn.options.selectedIndex;
+  };
+
   var timeInField = document.querySelector('#timein');
   var timeOutField = document.querySelector('#timeout');
+
   timeInField.addEventListener('change', function () {
-    timeOutField.options.selectedIndex = timeInField.options.selectedIndex;
+    window.sinchronizeField(timeInField, timeOutField, null, null, sinchronizeTime);
   });
 
   timeOutField.addEventListener('change', function () {
     timeInField.options.selectedIndex = timeOutField.options.selectedIndex;
   });
 
+  function sinchronizeTypeToPrice(elementTo, elementFrom, Places, Prices) {
+    for (var i = 0; i < Places.length; i++) {
+      if (elementTo.value === Places[i]) {
+        elementFrom.setAttribute('min', Prices[i]);
+      }
+    }
+  }
+
   var selectedTypeHabitation = document.querySelector('#type');
+  var price = document.querySelector('#price');
   if (selectedTypeHabitation.value === 'flat') {
     document.querySelector('#price').setAttribute('min', 1000);
   }
+
+
   selectedTypeHabitation.addEventListener('change', function () {
-    var minPrice = document.querySelector('#price');
-    if (selectedTypeHabitation.value === 'flat') {
-      minPrice.setAttribute('min', 1000);
-    } else if (selectedTypeHabitation.value === 'bungalo') {
-      minPrice.setAttribute('min', 0);
-    } else if (selectedTypeHabitation.value === 'house') {
-      minPrice.setAttribute('min', 5000);
-    } else if (selectedTypeHabitation.value === 'palace') {
-      minPrice.setAttribute('min', 10000);
-    }
+    window.sinchronizeField(selectedTypeHabitation, price, ['flat', 'bungalo', 'house', 'palace'], [1000, 0, 5000, 10000], sinchronizeTypeToPrice);
   });
+
+
+
 
   var selectedRoomCount = document.querySelector('#room_number');
   selectedRoomCount.addEventListener('change', function () {
@@ -66,6 +76,13 @@
       capacity.value = previousCapacity;
     }
   });
+
+
+
+
+
+
+
 
   var Price = document.querySelector('#price');
 
