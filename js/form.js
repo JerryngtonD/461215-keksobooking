@@ -17,6 +17,11 @@
     timeInField.options.selectedIndex = timeOutField.options.selectedIndex;
   });
 
+  var address = document.querySelector('#address');
+  address.addEventListener('keydown', function (evt) {
+    evt.preventDefault();
+  });
+
   function sinchronizeTypeToPrice(elementTo, elementFrom, Places, Prices) {
     for (var i = 0; i < Places.length; i++) {
       if (elementTo.value === Places[i]) {
@@ -123,4 +128,18 @@
       }
     });
   });
+
+  var form = document.querySelector('.notice__form');
+  form.addEventListener('submit', function (evt) {
+    if (address.value.length === 0) {
+      evt.preventDefault();
+    } else {
+      address.setCustomValidity('');
+      window.backend.save(new FormData(form), function () {
+        form.reset();
+      }, window.errorHandler);
+      evt.preventDefault();
+    }
+  });
+
 })();

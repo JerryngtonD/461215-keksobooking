@@ -36,7 +36,7 @@ window.showCard = function (obj, currentPin) {
   currentObjTemplate.querySelectorAll('p')[4].innerHTML = obj.offer.description;
 
   var beforeInsertObjElement = document.querySelector('.map__filters-container');
-  currentObjTemplate.querySelector('.popup__avatar').src = obj.author.avatar;
+  currentObjTemplate.querySelector('.popup__avatar').src = obj.author;
 
 
   document.querySelector('.map').insertBefore(currentObjTemplate, beforeInsertObjElement);
