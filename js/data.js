@@ -1,39 +1,12 @@
 'use strict';
 (function () {
-  function getNumberImages(numberOfLinks) {
-    var linkImages = [];
-    for (var j = 1; j <= numberOfLinks; j++) {
-      linkImages.push('0' + j);
-    }
-    return linkImages;
-  }
-
-  function getImageLink(number) {
-    var re = /xx/gi;
-    var str = 'img/avatars/userxx.png';
-    return str.replace(re, number);
-  }
-
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  var getMeRandomElements = function (sourceArray, neededElements) {
-    var result = [];
-    for (var i = 0; i < neededElements; i++) {
-      var insertElement = sourceArray.splice(Math.floor(Math.random() * sourceArray.length), 1);
-      result.push(insertElement);
-    }
-    return result;
-  };
 
   window.userInfo = {
     allFeatures: [
       'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'
     ],
 
-    itemsLength: 8,
-    rangeImageNumber: getNumberImages(8),
+    itemsLength: 10,
 
 
     rangeOfCoordinatesX: {
@@ -78,25 +51,54 @@
     peoplePerRoom: 10,
     userObjects: []
   };
-  for (var i = 0; i < window.userInfo.itemsLength; i++) {
-    var userObject = {};
 
-    userObject.author = {'avatar': getImageLink(window.userInfo.rangeImageNumber.splice(Math.floor(Math.random() * window.userInfo.rangeImageNumber.length), 1))};
-    userObject.offer = {
-      'title': window.userInfo.titles.splice(Math.floor(Math.random() * window.userInfo.titles.length), 1),
-      'adress': getRandomInt(window.userInfo.rangeOfCoordinatesX.from, window.userInfo.rangeOfCoordinatesX.to) + ', '
-                + getRandomInt(window.userInfo.rangeOfCoordinatesY.from, window.userInfo.rangeOfCoordinatesY.to),
-      'price': getRandomInt(1000, 1000000),
-      'type': window.userInfo.types[Math.floor(Math.random() * window.userInfo.types.length)],
-      'rooms': getRandomInt(1, 5),
-      'guests': getRandomInt(1, getRandomInt(1, 5) * window.userInfo.peoplePerRoom),
-      'checkin': window.userInfo.inTimes[Math.floor(Math.random() * window.userInfo.inTimes.length)],
-      'checkout': window.userInfo.outTimes[Math.floor(Math.random() * window.userInfo.outTimes.length)],
-      'features': getMeRandomElements(Object.assign([], window.userInfo.allFeatures), Math.floor(Math.random() * window.userInfo.allFeatures.length)),
-      'description': '',
-      'photos': []
-    };
+  var successHandler = function (wizards) {
+    for (var i = 0; i < wizards.length; i++) {
+      var userObject = {};
+      userObject.author = wizards[i].author.avatar;
+      userObject.offer = {
+        'title': wizards[i].offer.title,
+        'adress': wizards[i].offer.address,
+        'price': wizards[i].offer.price,
+        'type': wizards[i].offer.type,
+        'rooms': wizards[i].offer.rooms,
+        'guests': wizards[i].offer.guests,
+        'checkin': wizards[i].offer.checkin,
+        'checkout': wizards[i].offer.checkout,
+        'features': wizards[i].offer.features,
+        'description': wizards[i].offer.description,
+        'photos': wizards[i].offer.photos
+      };
 
-    window.userInfo.userObjects.push(userObject);
-  }
+      userObject.location = {
+        'x': wizards[i].location.x,
+        'y': wizards[i].location.y
+      };
+
+      window.userInfo.userObjects.push(userObject);
+    }
+  };
+
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style.display = 'flex';
+    node.style.justifyContent = 'space-around';
+    node.style.backgroundColor = 'white';
+    var firstInnerContent = document.createElement('div');
+    firstInnerContent.innerHTML = 'Ошибка:';
+    firstInnerContent.style = 'z-index: 100; text-align: center; background-color: red;';
+    firstInnerContent.style.fontSize = '30px';
+    var secondInnerContent = document.createElement('div');
+    node.appendChild(firstInnerContent);
+    node.appendChild(secondInnerContent);
+    secondInnerContent.style = 'z-index: 100; text-align: center; background-color: red;';
+    secondInnerContent.style.fontSize = '30px';
+
+    secondInnerContent.innerHTML = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(successHandler, errorHandler);
+
 })();

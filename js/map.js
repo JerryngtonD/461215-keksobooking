@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   window.pinsActions.setActivePins(true);
 
   var form = document.querySelector('.notice__form--disabled');
