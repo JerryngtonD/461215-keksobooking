@@ -77,10 +77,35 @@
 
       window.userInfo.userObjects.push(userObject);
     }
+
+    function renderPinItem(objIndex, pins) {
+      var simplePinTemplate = document.querySelector('template').content.lastElementChild.cloneNode(true);
+      simplePinTemplate.classList.add('hidden');
+
+
+      var pinWidth = 46;
+      var pinHeight = 46 + 18;
+      // var style = 'left:' + locationCoordinates[0] + 'px' + '; ' + 'top:' + locationCoordinates[0] + 'px' + ';';
+      simplePinTemplate.style.left = (pins[objIndex].location.x + pinWidth / 2) + 'px';
+      simplePinTemplate.style.top = (pins[objIndex].location.y + pinHeight) + 'px';
+      simplePinTemplate.firstChild.src = pins[objIndex].author;
+
+      return simplePinTemplate;
+    }
+
+    var mapPins = document.querySelector('.map__pins');
+    var fragment = document.createDocumentFragment();
+    for (var index = 0; index < 10; index++) {
+      fragment.appendChild(renderPinItem(index, window.userInfo.userObjects));
+    }
+    mapPins.appendChild(fragment);
+
+    window.clickOnPinEvent();
+
   };
 
 
-  var errorHandler = function (errorMessage) {
+  window.errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style.display = 'flex';
     node.style.justifyContent = 'space-around';
@@ -99,6 +124,6 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.backend.load(successHandler, errorHandler);
+  window.backend.load(successHandler, window.errorHandler);
 
 })();

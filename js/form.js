@@ -123,4 +123,13 @@
       }
     });
   });
+
+  var form = document.querySelector('.notice__form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), function () {
+      form.reset();
+    }, window.errorHandler);
+    evt.preventDefault();
+  });
+
 })();
