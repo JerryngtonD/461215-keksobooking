@@ -11,10 +11,10 @@
 
   function findElemOnLink(obj) {
     var certainObj;
-    var linkElement = obj.firstElementChild.getAttribute('src');
-    for (var p = 0; p < window.userInfo.userObjects.length; p++) {
-      if (window.userInfo.userObjects[p].author === linkElement) {
-        certainObj = window.userInfo.userObjects[p];
+    var aboutElement = obj.getAttribute('data-key');
+    for (var p = 0; p < window.pinsOnMap.length; p++) {
+      if (p === parseInt(aboutElement, 10)) {
+        certainObj = window.pinsOnMap[p];
         break;
       }
     }
@@ -55,8 +55,8 @@
           removeActiveState(currentPin);
           currentPin = clickedPin.currentTarget;
           addActiveState(currentPin);
-          document.querySelectorAll('.map__card')[0].remove();
           window.showCard(findElemOnLink(currentPin), currentPin);
+          document.querySelectorAll('.map__card')[0].remove();
           var popupClose = document.querySelector('.popup__close');
           popupClose.addEventListener('click', function () {
             document.querySelector('.map__card').style.display = 'none';

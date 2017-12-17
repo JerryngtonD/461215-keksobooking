@@ -91,6 +91,40 @@
     return comparedSetObjects;
   };
 
+  /*  var compareFeature = function (feature) {
+    var comparedSetObject = [];
+    if (window.currentChoosenFeatures.length !== 0) {
+      for (var i = 0; i < window.userInfo.userObjects.length; i++) {
+        if ((window.userInfo.userObjects[i].offer.features).includes(feature)) {
+          comparedSetObject.push(window.userInfo.userObjects[i]);
+          window.notChangePins.push(window.userInfo.userObjects[i].offer.title);
+        }
+      }
+    }
+    return comparedSetObject;
+  };*/
+
+
+  /*
+  var compareFeature = function (feature) {
+    var comparedSetObject = [];
+    if (window.currentChoosenFeatures.length !== 0) {
+      for (var i = 0; i < window.userInfo.userObjects.length; i++) {
+        if ((window.userInfo.userObjects[i].offer.features).includes(feature)) {
+          comparedSetObject.push(window.userInfo.userObjects[i]);
+          window.notChangePins.push(window.userInfo.userObjects[i].offer.title);
+        } else if (window.notChangePins.includes(window.userInfo.userObjects[i].offer.title)) {
+          comparedSetObject.push(window.userInfo.userObjects[i]);
+        } else {
+          var indexElemToRemove = window.notChangePins.indexOf(window.userInfo.userObjects[i].offer.title);
+          window.notChangePins.splice(indexElemToRemove, 1);
+        }
+      }
+    }
+    return comparedSetObject;
+  };
+*/
+
 
   var compareFeature = function (feature) {
     var comparedSetObject = [];
