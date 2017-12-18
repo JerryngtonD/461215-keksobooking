@@ -55,8 +55,8 @@
           removeActiveState(currentPin);
           currentPin = clickedPin.currentTarget;
           addActiveState(currentPin);
-          window.showCard(findElemOnLink(currentPin), currentPin);
           document.querySelectorAll('.map__card')[0].remove();
+          window.showCard(findElemOnLink(currentPin), currentPin);
           var popupClose = document.querySelector('.popup__close');
           popupClose.addEventListener('click', function () {
             document.querySelector('.map__card').style.display = 'none';
@@ -89,8 +89,8 @@
               removeActiveState(currentPin);
               currentPin = focusedPin.target;
               addActiveState(currentPin);
-              document.querySelectorAll('.map__card')[0].remove();
               window.showCard(findElemOnLink(currentPin), currentPin);
+              document.querySelectorAll('.map__card')[0].remove();
               var popup = document.querySelector('.popup__close');
               popup.addEventListener('click', function () {
                 document.querySelector('.map__card').style.display = 'none';
