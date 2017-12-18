@@ -1,16 +1,15 @@
 'use strict';
 (function () {
+  var PIN_WIDTH = 46;
+  var PIN_HEIGHT = 46 + 18;
 
   function renderPinItem(objIndex, pins) {
     var simplePinTemplate = document.querySelector('template').content.lastElementChild.cloneNode(true);
     simplePinTemplate.classList.add('hidden');
 
 
-    var pinWidth = 46;
-    var pinHeight = 46 + 18;
-    // var style = 'left:' + locationCoordinates[0] + 'px' + '; ' + 'top:' + locationCoordinates[0] + 'px' + ';';
-    simplePinTemplate.style.left = (pins[objIndex].location.x + pinWidth / 2) + 'px';
-    simplePinTemplate.style.top = (pins[objIndex].location.y + pinHeight) + 'px';
+    simplePinTemplate.style.left = (pins[objIndex].location.x + PIN_WIDTH / 2) + 'px';
+    simplePinTemplate.style.top = (pins[objIndex].location.y + PIN_HEIGHT) + 'px';
     simplePinTemplate.firstChild.src = pins[objIndex].author;
 
     simplePinTemplate.setAttribute('data-key', objIndex);

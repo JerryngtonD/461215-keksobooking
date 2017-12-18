@@ -1,6 +1,8 @@
 'use strict';
 (function () {
-
+  var TYPES_OF_DWELLING = ['flat', 'bungalo', 'house', 'palace'];
+  var MIN_PRICE_OF_DWELLING = [1000, 0, 5000, 10000];
+  var STARTED_MIN_PRICE = 1000;
 
   var sinchronizeTime = function (timeIn, timeOut) {
     timeOut.options.selectedIndex = timeIn.options.selectedIndex;
@@ -33,12 +35,12 @@
   var selectedTypeHabitation = document.querySelector('#type');
   var price = document.querySelector('#price');
   if (selectedTypeHabitation.value === 'flat') {
-    document.querySelector('#price').setAttribute('min', 1000);
+    document.querySelector('#price').setAttribute('min', STARTED_MIN_PRICE);
   }
 
 
   selectedTypeHabitation.addEventListener('change', function () {
-    window.sinchronizeField(selectedTypeHabitation, price, ['flat', 'bungalo', 'house', 'palace'], [1000, 0, 5000, 10000], sinchronizeTypeToPrice);
+    window.sinchronizeField(selectedTypeHabitation, price, TYPES_OF_DWELLING, MIN_PRICE_OF_DWELLING, sinchronizeTypeToPrice);
   });
 
 
