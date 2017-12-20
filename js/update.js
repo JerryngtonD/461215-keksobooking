@@ -1,6 +1,7 @@
 'use strict';
 (function () {
 
+  var MAX_POSSIBLE_AMOUNT_PINS = 5;
   window.currentChoosenFeatures = [];
   window.notChangePins = [];
 
@@ -139,6 +140,10 @@
     comparedPins = getIntersectionElems(comparedPins, compareRooms);
     comparedPins = getIntersectionElems(comparedPins, compareGuests);
     comparedPins = getIntersectionElems(comparedPins, Feature);
+
+    if (comparedPins.length > 5) {
+      comparedPins = comparedPins.slice(0, MAX_POSSIBLE_AMOUNT_PINS);
+    }
 
     window.renderSentPins(comparedPins);
     var allHiddenPins = document.querySelectorAll('.map__pin');

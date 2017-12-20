@@ -1,6 +1,7 @@
 'use strict';
 (function () {
 
+  var MAX_POSSIBLE_AMOUNT_PINS = 5;
   window.userInfo = {
     userObjects: []
   };
@@ -31,7 +32,7 @@
       window.userInfo.userObjects.push(UserObject);
     }
     window.pinsOnMap = window.userInfo.userObjects;
-    window.renderSentPins(window.userInfo.userObjects);
+    window.renderSentPins(window.userInfo.userObjects.slice(0, MAX_POSSIBLE_AMOUNT_PINS));
   };
 
   window.errorHandler = function (errorMessage) {

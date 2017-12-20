@@ -43,92 +43,42 @@
     window.sinchronizeField(selectedTypeHabitation, price, TYPES_OF_DWELLING, MIN_PRICE_OF_DWELLING, sinchronizeTypeToPrice);
   });
 
-
-  var selectedRoomCount = document.querySelector('#room_number');
-  selectedRoomCount.addEventListener('change', function () {
-    var capacity = document.querySelector('#capacity');
-    var previousCapacity = parseInt(capacity.value, 10);
-    var selectedRooms = parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10);
-    if (selectedRooms === 1) {
-      if (previousCapacity === 1) {
-        capacity.value = 1;
-      } else {
-        previousCapacity = 1;
-        capacity.value = previousCapacity;
-      }
-    } else if (selectedRooms === 2) {
-      if (previousCapacity === 1) {
-        capacity.value = 1;
-      } else if (previousCapacity === 2) {
-        capacity.value = 2;
-      } else {
-        previousCapacity = Math.floor(Math.random() * 2) + 1;
-        capacity.value = previousCapacity;
-      }
-    } else if (selectedRooms === 3) {
-      if (parseInt(previousCapacity, 10) === 1) {
-        capacity.value = 1;
-      } else if (parseInt(previousCapacity, 10) === 2) {
-        capacity.value = 2;
-      } else if (parseInt(previousCapacity, 10) === 3) {
-        capacity.value = 3;
-      } else {
-        previousCapacity = Math.floor(Math.random() * 3) + 1;
-        capacity.value = previousCapacity;
-      }
-    } else if (selectedRooms === 100) {
-      previousCapacity = 0;
-      capacity.value = previousCapacity;
-    }
-  });
-
-
-  var Price = document.querySelector('#price');
-
-  Price.addEventListener('invalid', function () {
-    if (Price.validity.rangeUnderflow) {
-      Price.setCustomValidity('Минимальная стоимость ниже заявленной');
-    } else {
-      Price.setCustomValidity('');
-    }
-    if (Price.validity.rangeOverflow) {
-      Price.setCustomValidity('Превышена максимальная стоимость');
-    } else {
-      Price.setCustomValidity('');
-    }
-  });
-
-  function checkConnectionRoomsToCapacity(roomsCount, capacity) {
-    if (roomsCount === 1 && capacity !== 1) {
-      return false;
-    } else if (roomsCount === 2 && (capacity !== 1 || capacity !== 2)) {
-      return false;
-    } else if (roomsCount === 3 && capacity === 0) {
-      return false;
-    } else if (roomsCount === 100 && capacity !== 0) {
-      return false;
-    } else {
-      return true;
+  function resetFieldsHidden(someSelect) {
+    var properties = someSelect.options;
+    for (var i = 0; i < properties.length; i++) {
+      properties[i].removeAttribute('hidden');
     }
   }
 
+  var selectedRoomCount = document.querySelector('#room_number');
+  selectedRoomCount.options[1].setAttribute('hidden', true);
+  selectedRoomCount.options[2].setAttribute('hidden', true);
+  selectedRoomCount.options[3].setAttribute('hidden', true);
   var capacity = document.querySelector('#capacity');
-  capacity.addEventListener('change', function () {
-    var selectedRooms = parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10);
-    var capacityRooms = parseInt(capacity.value, 10);
-    if (checkConnectionRoomsToCapacity(selectedRooms, capacityRooms) === false) {
-      capacity.setCustomValidity('Нарушена численность людей');
-    } else {
-      capacity.setCustomValidity('');
+  capacity.addEventListener('click', function () {
+    var currentCapacity = parseInt(capacity.value, 10);
+    if (currentCapacity === 1) {
+      resetFieldsHidden(selectedRoomCount);
+      selectedRoomCount.selectedIndex = 0;
+      selectedRoomCount.options[1].setAttribute('hidden', true);
+      selectedRoomCount.options[2].setAttribute('hidden', true);
+      selectedRoomCount.options[3].setAttribute('hidden', true);
+    } else if (currentCapacity === 2) {
+      resetFieldsHidden(selectedRoomCount);
+      selectedRoomCount.selectedIndex = 0;
+      selectedRoomCount.options[2].setAttribute('hidden', true);
+      selectedRoomCount.options[3].setAttribute('hidden', true);
+    } else if (currentCapacity === 3) {
+      resetFieldsHidden(selectedRoomCount);
+      selectedRoomCount.selectedIndex = 0;
+      selectedRoomCount.options[3].setAttribute('hidden', true);
+    } else if (currentCapacity === 0) {
+      resetFieldsHidden(selectedRoomCount);
+      selectedRoomCount.selectedIndex = 3;
+      selectedRoomCount.options[0].setAttribute('hidden', true);
+      selectedRoomCount.options[1].setAttribute('hidden', true);
+      selectedRoomCount.options[2].setAttribute('hidden', true);
     }
-    selectedRoomCount.addEventListener('change', function () {
-      var newSelectedRooms = parseInt(selectedRoomCount.options[selectedRoomCount.selectedIndex].value, 10);
-      if (checkConnectionRoomsToCapacity(newSelectedRooms, capacityRooms) === false) {
-        capacity.setCustomValidity('Нарушена численность людей');
-      } else {
-        capacity.setCustomValidity('');
-      }
-    });
   });
 
   var form = document.querySelector('.notice__form');
