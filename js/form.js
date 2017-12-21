@@ -51,41 +51,41 @@
   }
   
   var selectedRoomCount = document.querySelector('#room_number');
-  selectedRoomCount.options[1].setAttribute('hidden', true);
-  selectedRoomCount.options[2].setAttribute('hidden', true);
-  selectedRoomCount.options[3].setAttribute('hidden', true);
   var capacity = document.querySelector('#capacity');
-  capacity.addEventListener('change', function () {
-    var currentCapacity = parseInt(capacity.value, 10);
-    if (currentCapacity === 1) {
-      if (parseInt(selectedRoomCount.value, 10) !== 1) {
-        selectedRoomCount.selectedIndex = 0;
+  capacity.options[0].setAttribute('hidden', true);
+  capacity.options[1].setAttribute('hidden', true);
+  capacity.options[3].setAttribute('hidden', true);
+  selectedRoomCount.addEventListener('change', function () {
+    var currentRoomCounter = parseInt(selectedRoomCount.value, 10);
+    if (currentRoomCounter === 1) {
+      if (parseInt(capacity.value, 10) !== 1) {
+        capacity.selectedIndex = 2;
       }
-      resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.options[1].setAttribute('hidden', true);
-      selectedRoomCount.options[2].setAttribute('hidden', true);
-      selectedRoomCount.options[3].setAttribute('hidden', true);
-    } else if (currentCapacity === 2) {
-      if (parseInt(selectedRoomCount.value, 10) === 3 || parseInt(selectedRoomCount.value, 10) === 100) {
-        selectedRoomCount.selectedIndex = 0;
+      resetFieldsHidden(capacity);
+      capacity.options[0].setAttribute('hidden', true);
+      capacity.options[1].setAttribute('hidden', true);
+      capacity.options[3].setAttribute('hidden', true);
+    } else if (currentRoomCounter === 2) {
+      if (parseInt(capacity.value, 10) === 0 || parseInt(capacity.value, 10) === 3) {
+        capacity.selectedIndex = 2;
       }
-      resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.options[2].setAttribute('hidden', true);
-      selectedRoomCount.options[3].setAttribute('hidden', true);
-    } else if (currentCapacity === 3) {
-      if (parseInt(selectedRoomCount.value, 10) === 100) {
-        selectedRoomCount.selectedIndex = 0;
+      resetFieldsHidden(capacity);
+      capacity.options[0].setAttribute('hidden', true);
+      capacity.options[3].setAttribute('hidden', true);
+    } else if (currentRoomCounter === 3) {
+      if (parseInt(capacity.value, 10) === 0) {
+        capacity.selectedIndex = 2;
       }
-      resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.options[3].setAttribute('hidden', true);
-    } else if (currentCapacity === 0) {
-      if (parseInt(selectedRoomCount.value, 10) !== 100) {
-        selectedRoomCount.selectedIndex = 3;
+      resetFieldsHidden(capacity);
+      capacity.options[3].setAttribute('hidden', true);
+    } else if (currentRoomCounter === 100) {
+      if (parseInt(capacity.value, 10) !== 3) {
+        capacity.selectedIndex = 3;
       }
-      resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.options[0].setAttribute('hidden', true);
-      selectedRoomCount.options[1].setAttribute('hidden', true);
-      selectedRoomCount.options[2].setAttribute('hidden', true);
+      resetFieldsHidden(capacity);
+      capacity.options[0].setAttribute('hidden', true);
+      capacity.options[1].setAttribute('hidden', true);
+      capacity.options[2].setAttribute('hidden', true);
     }
   });
 
