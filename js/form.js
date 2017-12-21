@@ -19,6 +19,7 @@
     timeInField.options.selectedIndex = timeOutField.options.selectedIndex;
   });
 
+
   var address = document.querySelector('#address');
   address.addEventListener('keydown', function (evt) {
     evt.preventDefault();
@@ -49,7 +50,7 @@
       properties[i].removeAttribute('hidden');
     }
   }
-  
+
   var selectedRoomCount = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');
   capacity.options[0].setAttribute('hidden', true);
