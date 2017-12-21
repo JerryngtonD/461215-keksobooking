@@ -49,32 +49,40 @@
       properties[i].removeAttribute('hidden');
     }
   }
-
+  
   var selectedRoomCount = document.querySelector('#room_number');
   selectedRoomCount.options[1].setAttribute('hidden', true);
   selectedRoomCount.options[2].setAttribute('hidden', true);
   selectedRoomCount.options[3].setAttribute('hidden', true);
   var capacity = document.querySelector('#capacity');
-  capacity.addEventListener('click', function () {
+  capacity.addEventListener('change', function () {
     var currentCapacity = parseInt(capacity.value, 10);
     if (currentCapacity === 1) {
+      if (parseInt(selectedRoomCount.value, 10) !== 1) {
+        selectedRoomCount.selectedIndex = 0;
+      }
       resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.selectedIndex = 0;
       selectedRoomCount.options[1].setAttribute('hidden', true);
       selectedRoomCount.options[2].setAttribute('hidden', true);
       selectedRoomCount.options[3].setAttribute('hidden', true);
     } else if (currentCapacity === 2) {
+      if (parseInt(selectedRoomCount.value, 10) === 3 || parseInt(selectedRoomCount.value, 10) === 100) {
+        selectedRoomCount.selectedIndex = 0;
+      }
       resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.selectedIndex = 0;
       selectedRoomCount.options[2].setAttribute('hidden', true);
       selectedRoomCount.options[3].setAttribute('hidden', true);
     } else if (currentCapacity === 3) {
+      if (parseInt(selectedRoomCount.value, 10) === 100) {
+        selectedRoomCount.selectedIndex = 0;
+      }
       resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.selectedIndex = 0;
       selectedRoomCount.options[3].setAttribute('hidden', true);
     } else if (currentCapacity === 0) {
+      if (parseInt(selectedRoomCount.value, 10) !== 100) {
+        selectedRoomCount.selectedIndex = 3;
+      }
       resetFieldsHidden(selectedRoomCount);
-      selectedRoomCount.selectedIndex = 3;
       selectedRoomCount.options[0].setAttribute('hidden', true);
       selectedRoomCount.options[1].setAttribute('hidden', true);
       selectedRoomCount.options[2].setAttribute('hidden', true);
