@@ -90,6 +90,7 @@
     }
   });
 
+  
   var form = document.querySelector('.notice__form');
   form.addEventListener('submit', function (evt) {
     if (address.value.length === 0) {
