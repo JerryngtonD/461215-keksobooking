@@ -2,10 +2,13 @@
 (function () {
 
   var MAX_POSSIBLE_AMOUNT_PINS = 5;
+  var MIDDLE_STARTING_PRICE = 10000;
+  var MIDDLE_FINAL_PRICE = 50000;
+
   window.currentChoosenFeatures = [];
   window.notChangePins = [];
 
-  function getIntersectionElems(first, second) {
+  var getIntersectionElems = function (first, second) {
     var intersectionPins = [];
     if (first.length === 0 && second.length !== 0) {
       return second;
@@ -24,7 +27,7 @@
       }
     }
     return intersectionPins;
-  }
+  };
 
 
   var filterTypeDwelling = function () {
@@ -43,11 +46,11 @@
     var filterPrice = price.options[price.selectedIndex].value;
     var comparedSetObjects = [];
     for (var i = 0; i < window.userInfo.userObjects.length; i++) {
-      if (filterPrice === 'middle' && (window.userInfo.userObjects[i].offer.price >= 10000 && window.userInfo.userObjects[i].offer.price <= 50000)) {
+      if (filterPrice === 'middle' && (window.userInfo.userObjects[i].offer.price >= MIDDLE_STARTING_PRICE && window.userInfo.userObjects[i].offer.price <= MIDDLE_FINAL_PRICE)) {
         comparedSetObjects.push(window.userInfo.userObjects[i]);
-      } else if (filterPrice === 'low' && window.userInfo.userObjects[i].offer.price < 10000) {
+      } else if (filterPrice === 'low' && window.userInfo.userObjects[i].offer.price < MIDDLE_STARTING_PRICE) {
         comparedSetObjects.push(window.userInfo.userObjects[i]);
-      } else if (filterPrice === 'high' && window.userInfo.userObjects[i].offer.price >= 50000) {
+      } else if (filterPrice === 'high' && window.userInfo.userObjects[i].offer.price >= MIDDLE_FINAL_PRICE) {
         comparedSetObjects.push(window.userInfo.userObjects[i]);
       } else if (filterPrice === 'any') {
         comparedSetObjects.push(window.userInfo.userObjects[i]);
@@ -176,7 +179,7 @@
     update();
   });
 
-  function filterOnFeature(objectFeature) {
+  var filterOnFeature = function (objectFeature) {
     objectFeature.addEventListener('click', function (event) {
       if (event.target.hasAttribute('isActive')) {
         event.target.removeAttribute('isActive');
@@ -189,7 +192,7 @@
       update();
 
     });
-  }
+  };
 
   var wifiFeature = document.querySelector('#filter-wifi');
   var dishWasherFeature = document.querySelector('#filter-dishwasher');

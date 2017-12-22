@@ -1,10 +1,10 @@
 'use strict';
 (function () {
   var TYPES_OF_DWELLING = ['flat', 'bungalo', 'house', 'palace'];
-  var MIN_PRICE_OF_DWELLING = [1000, 0, 5000, 10000];
+  var MIN_PRICES_OF_DWELLING = [1000, 0, 5000, 10000];
   var STARTED_MIN_PRICE = 1000;
 
-  var sinchronizeTime = function (timeIn, timeOut) {
+  var synchronizeTime = function (timeIn, timeOut) {
     timeOut.options.selectedIndex = timeIn.options.selectedIndex;
   };
 
@@ -12,7 +12,7 @@
   var timeOutField = document.querySelector('#timeout');
 
   timeInField.addEventListener('change', function () {
-    window.sinchronizeField(timeInField, timeOutField, null, null, sinchronizeTime);
+    window.synchronizeField(timeInField, timeOutField, null, null, synchronizeTime);
   });
 
   timeOutField.addEventListener('change', function () {
@@ -25,13 +25,13 @@
     evt.preventDefault();
   });
 
-  function sinchronizeTypeToPrice(elementTo, elementFrom, Places, Prices) {
+  var synchronizeTypeToPrice = function (elementTo, elementFrom, Places, Prices) {
     for (var i = 0; i < Places.length; i++) {
       if (elementTo.value === Places[i]) {
         elementFrom.setAttribute('min', Prices[i]);
       }
     }
-  }
+  };
 
   var selectedTypeHabitation = document.querySelector('#type');
   var price = document.querySelector('#price');
@@ -41,15 +41,15 @@
 
 
   selectedTypeHabitation.addEventListener('change', function () {
-    window.sinchronizeField(selectedTypeHabitation, price, TYPES_OF_DWELLING, MIN_PRICE_OF_DWELLING, sinchronizeTypeToPrice);
+    window.synchronizeField(selectedTypeHabitation, price, TYPES_OF_DWELLING, MIN_PRICES_OF_DWELLING, synchronizeTypeToPrice);
   });
 
-  function resetFieldsHidden(someSelect) {
+  var resetFieldsHidden = function (someSelect) {
     var properties = someSelect.options;
     for (var i = 0; i < properties.length; i++) {
       properties[i].removeAttribute('hidden');
     }
-  }
+  };
 
   var selectedRoomCount = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');

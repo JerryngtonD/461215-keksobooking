@@ -11,8 +11,7 @@
     pinObj.classList.remove('map__pin--active');
   };
 
-
-  function findElemOnLink(object) {
+  var findElemOnLink = function (object) {
     var certainObject;
     var aboutElement = object.getAttribute('data-key');
     for (var p = 0; p < window.pinsOnMap.length; p++) {
@@ -22,7 +21,7 @@
       }
     }
     return certainObject;
-  }
+  };
 
   window.clickOnPinEvent = function () {
     var pinItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');

@@ -1,9 +1,9 @@
 'use strict';
 (function () {
   var PIN_WIDTH = 46;
-  var PIN_HEIGHT = 46 + 18;
+  var PIN_HEIGHT = 64;
 
-  function renderPinItem(objIndex, pins) {
+  var renderPinItem = function (objIndex, pins) {
     var simplePinTemplate = document.querySelector('template').content.lastElementChild.cloneNode(true);
     simplePinTemplate.classList.add('hidden');
 
@@ -14,7 +14,7 @@
 
     simplePinTemplate.setAttribute('data-key', objIndex);
     return simplePinTemplate;
-  }
+  };
 
   window.renderSentPins = function (pinObjects) {
     window.pinsOnMap = pinObjects;

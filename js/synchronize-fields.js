@@ -1,8 +1,8 @@
 'use strict';
 (function () {
-  window.sinchronizeField = function (elementFrom, elementTo, elementsFromValue, elementsToValue, functionSinchronize) {
-    if (typeof functionSinchronize === 'function') {
-      functionSinchronize(elementFrom, elementTo, elementsFromValue, elementsToValue);
+  window.synchronizeField = function (elementFrom, elementTo, elementsFromValue, elementsToValue, functionSynchronize) {
+    if (typeof functionSynchronize === 'function') {
+      functionSynchronize(elementFrom, elementTo, elementsFromValue, elementsToValue);
     }
   };
 })();
