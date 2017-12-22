@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-
-
   var mapSimilarPins = document.querySelectorAll('.map__pin');
   window.pinsActions = {
     setActivePins: function changeVisiblePins(switchFlag) {

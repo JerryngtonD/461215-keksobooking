@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  var ENTER_KEY_CODE = 13;
+  var ESCAPE_KEY_CODE = 27;
+
   var addActiveState = function (pinObj) {
     pinObj.classList.add('map__pin--active');
   };
@@ -9,16 +12,16 @@
   };
 
 
-  function findElemOnLink(obj) {
-    var certainObj;
-    var aboutElement = obj.getAttribute('data-key');
+  function findElemOnLink(object) {
+    var certainObject;
+    var aboutElement = object.getAttribute('data-key');
     for (var p = 0; p < window.pinsOnMap.length; p++) {
       if (p === parseInt(aboutElement, 10)) {
-        certainObj = window.pinsOnMap[p];
+        certainObject = window.pinsOnMap[p];
         break;
       }
     }
-    return certainObj;
+    return certainObject;
   }
 
   window.clickOnPinEvent = function () {
@@ -31,7 +34,7 @@
           addActiveState(currentPin);
           window.showCard(findElemOnLink(currentPin), currentPin);
           document.addEventListener('keydown', function (eventEsc) {
-            if (eventEsc.keyCode === 27) {
+            if (eventEsc.keyCode === ESCAPE_KEY_CODE) {
               document.querySelector('.map__card').style.display = 'none';
               removeActiveState(currentPin);
             }
@@ -39,7 +42,7 @@
           var popup = document.querySelector('.popup__close');
           popup.addEventListener('focus', function () {
             document.addEventListener('keydown', function (exit) {
-              if (exit.keyCode === 13) {
+              if (exit.keyCode === ENTER_KEY_CODE) {
                 document.querySelector('.map__card').style.display = 'none';
                 removeActiveState(currentPin);
               }
@@ -68,13 +71,13 @@
 
       pinItems[pinIndex].addEventListener('focus', function (focusedPin) {
         document.addEventListener('keydown', function (activatedKey) {
-          if (activatedKey.keyCode === 13) {
+          if (activatedKey.keyCode === ENTER_KEY_CODE) {
             if (currentPin === 0) {
               currentPin = focusedPin.target;
               addActiveState(currentPin);
               window.showCard(findElemOnLink(currentPin), currentPin);
               document.addEventListener('keydown', function (eventEsc) {
-                if (eventEsc.keyCode === 27) {
+                if (eventEsc.keyCode === ESCAPE_KEY_CODE) {
                   document.querySelector('.map__card').style.display = 'none';
                   removeActiveState(currentPin);
                 }
@@ -89,8 +92,8 @@
               removeActiveState(currentPin);
               currentPin = focusedPin.target;
               addActiveState(currentPin);
-              document.querySelectorAll('.map__card')[0].remove();
               window.showCard(findElemOnLink(currentPin), currentPin);
+              document.querySelectorAll('.map__card')[0].remove();
               var popup = document.querySelector('.popup__close');
               popup.addEventListener('click', function () {
                 document.querySelector('.map__card').style.display = 'none';

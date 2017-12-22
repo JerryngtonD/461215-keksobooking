@@ -1,62 +1,16 @@
 'use strict';
 (function () {
 
+  var MAX_POSSIBLE_AMOUNT_PINS = 5;
   window.userInfo = {
-    allFeatures: [
-      'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'
-    ],
-
-    itemsLength: 10,
-
-
-    rangeOfCoordinatesX: {
-      'from': 300,
-      'to': 900
-    },
-
-    rangeOfCoordinatesY: {
-      'from': 100,
-      'to': 500
-    },
-
-    titles: [
-      'Большая уютная квартира',
-      'Маленькая неуютная квартира',
-      'Огромный прекрасный дворец',
-      'Маленький ужасный дворец',
-      'Красивый гостевой домик',
-      'Некрасивый негостеприимный домик',
-      'Уютное бунгало далеко от моря',
-      'Неуютное бунгало по колено в воде'
-    ],
-
-    types: [
-      'flat',
-      'house',
-      'bungalo'
-    ],
-
-    inTimes: [
-      '12:00',
-      '13:00',
-      '14:00'
-    ],
-
-    outTimes: [
-      '12:00',
-      '13:00',
-      '14:00'
-    ],
-
-    peoplePerRoom: 10,
     userObjects: []
   };
 
   var successHandler = function (wizards) {
     for (var i = 0; i < wizards.length; i++) {
-      var userObject = {};
-      userObject.author = wizards[i].author.avatar;
-      userObject.offer = {
+      var UserObject = {};
+      UserObject.author = wizards[i].author.avatar;
+      UserObject.offer = {
         'title': wizards[i].offer.title,
         'adress': wizards[i].offer.address,
         'price': wizards[i].offer.price,
@@ -70,17 +24,16 @@
         'photos': wizards[i].offer.photos
       };
 
-      userObject.location = {
+      UserObject.location = {
         'x': wizards[i].location.x,
         'y': wizards[i].location.y
       };
 
-      window.userInfo.userObjects.push(userObject);
+      window.userInfo.userObjects.push(UserObject);
     }
     window.pinsOnMap = window.userInfo.userObjects;
-    window.renderSentPins(window.userInfo.userObjects);
+    window.renderSentPins(window.userInfo.userObjects.slice(0, MAX_POSSIBLE_AMOUNT_PINS));
   };
-
 
   window.errorHandler = function (errorMessage) {
     var node = document.createElement('div');
@@ -100,7 +53,5 @@
     secondInnerContent.innerHTML = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   };
-
   window.backend.load(successHandler, window.errorHandler);
-
 })();

@@ -1,6 +1,7 @@
 'use strict';
 (function () {
 
+  var MAX_POSSIBLE_AMOUNT_PINS = 5;
   window.currentChoosenFeatures = [];
   window.notChangePins = [];
 
@@ -26,7 +27,7 @@
   }
 
 
-  var compareTypeDwelling = function () {
+  var filterTypeDwelling = function () {
     var typeDwelling = document.querySelector('#housing-type');
     var comparedSetObjects = [];
     for (var i = 0; i < window.userInfo.userObjects.length; i++) {
@@ -37,7 +38,7 @@
     return comparedSetObjects;
   };
 
-  var comparePriceDwelling = function () {
+  var filterPriceDwelling = function () {
     var price = document.querySelector('#housing-price');
     var filterPrice = price.options[price.selectedIndex].value;
     var comparedSetObjects = [];
@@ -55,7 +56,7 @@
     return comparedSetObjects;
   };
 
-  var compareRoomsDwelling = function () {
+  var filterRoomsDwelling = function () {
     var rooms = document.querySelector('#housing-rooms');
     var filterRooms = rooms.value;
     var comparedSetObjects = [];
@@ -74,7 +75,7 @@
     return comparedSetObjects;
   };
 
-  var compareGuestsDwelling = function () {
+  var filterGuestsDwelling = function () {
     var guests = document.querySelector('#housing-guests');
     var filterGuests = guests.value;
     var comparedSetObjects = [];
@@ -91,42 +92,7 @@
     return comparedSetObjects;
   };
 
-  /*  var compareFeature = function (feature) {
-    var comparedSetObject = [];
-    if (window.currentChoosenFeatures.length !== 0) {
-      for (var i = 0; i < window.userInfo.userObjects.length; i++) {
-        if ((window.userInfo.userObjects[i].offer.features).includes(feature)) {
-          comparedSetObject.push(window.userInfo.userObjects[i]);
-          window.notChangePins.push(window.userInfo.userObjects[i].offer.title);
-        }
-      }
-    }
-    return comparedSetObject;
-  };*/
-
-
-  /*
-  var compareFeature = function (feature) {
-    var comparedSetObject = [];
-    if (window.currentChoosenFeatures.length !== 0) {
-      for (var i = 0; i < window.userInfo.userObjects.length; i++) {
-        if ((window.userInfo.userObjects[i].offer.features).includes(feature)) {
-          comparedSetObject.push(window.userInfo.userObjects[i]);
-          window.notChangePins.push(window.userInfo.userObjects[i].offer.title);
-        } else if (window.notChangePins.includes(window.userInfo.userObjects[i].offer.title)) {
-          comparedSetObject.push(window.userInfo.userObjects[i]);
-        } else {
-          var indexElemToRemove = window.notChangePins.indexOf(window.userInfo.userObjects[i].offer.title);
-          window.notChangePins.splice(indexElemToRemove, 1);
-        }
-      }
-    }
-    return comparedSetObject;
-  };
-*/
-
-
-  var compareFeature = function (feature) {
+  var filterFeature = function (feature) {
     var comparedSetObject = [];
     if (window.currentChoosenFeatures.length !== 0) {
       for (var i = 0; i < window.userInfo.userObjects.length; i++) {
@@ -144,7 +110,7 @@
     if (window.currentChoosenFeatures.length !== 0) {
       var tempArr = [];
       for (var j = 0; j < window.currentChoosenFeatures.length; j++) {
-        tempArr = getIntersectionElems(tempArr, compareFeature(window.currentChoosenFeatures[j]));
+        tempArr = getIntersectionElems(tempArr, filterFeature(window.currentChoosenFeatures[j]));
       }
       return tempArr;
     } else {
@@ -153,7 +119,6 @@
   };
 
   var rerender = function () {
-
     var popupClose = document.querySelector('.map__card');
     if (popupClose) {
       popupClose.remove();
@@ -164,10 +129,10 @@
       needToDeleteNodes[i].parentNode.removeChild(needToDeleteNodes[i]);
     }
 
-    var compareType = compareTypeDwelling();
-    var comparePrice = comparePriceDwelling();
-    var compareRooms = compareRoomsDwelling();
-    var compareGuests = compareGuestsDwelling();
+    var compareType = filterTypeDwelling();
+    var comparePrice = filterPriceDwelling();
+    var compareRooms = filterRoomsDwelling();
+    var compareGuests = filterGuestsDwelling();
     var Feature = compareSetFeatures();
 
 
@@ -175,6 +140,10 @@
     comparedPins = getIntersectionElems(comparedPins, compareRooms);
     comparedPins = getIntersectionElems(comparedPins, compareGuests);
     comparedPins = getIntersectionElems(comparedPins, Feature);
+
+    if (comparedPins.length > 5) {
+      comparedPins = comparedPins.slice(0, MAX_POSSIBLE_AMOUNT_PINS);
+    }
 
     window.renderSentPins(comparedPins);
     var allHiddenPins = document.querySelectorAll('.map__pin');
@@ -235,6 +204,4 @@
   filterOnFeature(washer);
   filterOnFeature(elevator);
   filterOnFeature(conditioner);
-
-
 })();
